@@ -394,7 +394,7 @@ module Bosh::CloudFoundry::ConfigOptions
       err "Please set core_cloud_properties configuration for non-interactive mode"
     end
 
-    server_flavor = ask("Server flavor for #{role} of Cloud Foundry? ") do |q|
+    server_flavor = ask("Server flavor for core of Cloud Foundry? ") do |q|
       q.default = default_core_server_flavor
     end
 
