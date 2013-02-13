@@ -390,19 +390,16 @@ module Bosh::CloudFoundry::ConfigOptions
   end
 
   def generate_compilation_cloud_properties
-    fog_properties = system_config.microbosh.fog_connection_properties
+    base = {
+      "instance_type" => "m1.medium"
+    }
     if aws?
-      {
-        "instance_type" => "m1.medium",
-        "region" => fog_properties[:region]
-      }
-    elsif openstack?
-      {
-        "instance_type" => "m1.medium"
-      }
-    else
-      raise "please implement #generate_compilation_server_flavor for #{system.bosh_provider}"
+      if system_config.microbosh && fog_properties = system_config.microbosh.fog_connection_properties
+        base["region"] = fog_properties[:region] if fog_properties[:region] # AWS
+      end
     end
+    puts "generated compilation properties: #{base}"
+    base
   end
 
   # List of versions of stemcell called "bosh-stemcell" that are available

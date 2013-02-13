@@ -264,6 +264,7 @@ module Bosh::Cli::Command
       cf_release_dir
       stemcells_dir
       base_systems_dir
+      compilation_cloud_properties
     end
 
     # Assert that system configuration is available or prompt for values
