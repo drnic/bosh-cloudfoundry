@@ -147,7 +147,8 @@ class Bosh::CloudFoundry::Config::DeaConfig
   end
 
   def ram_for_core_vm_flavor
-    provider.ram_for_server_flavor(system_config.core_server_flavor)
+    core_server_flavor = system_config.core_cloud_properties["instance_type"]
+    provider.ram_for_server_flavor(core_server_flavor)
   end
 
   def ram_for_server_flavor

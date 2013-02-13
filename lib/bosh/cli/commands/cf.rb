@@ -264,7 +264,6 @@ module Bosh::Cli::Command
       cf_release_dir
       stemcells_dir
       base_systems_dir
-      compilation_cloud_properties
     end
 
     # Assert that system configuration is available or prompt for values
@@ -272,7 +271,7 @@ module Bosh::Cli::Command
       generate_generatable_options
       validate_root_dns_maps_to_core_ip
       ensure_security_group_prepared
-      validate_compute_flavor(core_server_flavor)
+      core_cloud_properties
       admin_emails
       confirm_or_upload_release
       confirm_or_upload_stemcell
@@ -550,6 +549,7 @@ module Bosh::Cli::Command
     def generate_generatable_options
       common_password
       security_group
+      compilation_cloud_properties
 
       set_cf_release_branch("master")
     end

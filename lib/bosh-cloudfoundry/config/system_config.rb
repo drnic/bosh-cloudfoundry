@@ -37,12 +37,12 @@ class Bosh::CloudFoundry::Config::SystemConfig < Bosh::Cli::Config
     :stemcell_version, # e.g. '0.6.7'
     :core_ip,          # Static IP for Core CF server (router, cc) e.g. '1.2.3.4'
     :root_dns,         # Root DNS for cc & user apps, e.g. 'mycompanycloud.com'
-    :core_server_flavor,  # Server size for core/0 VM; e.g. 'm1.xlarge' on AWS
     :runtimes,         # e.g. { "ruby18" => false, "ruby19" => true }
     :common_password,  # e.g. 'c1oudc0wc1oudc0w` - must be 16 chars for CC password
     :common_persistent_disk, # e.g. 16192 (integer in Mb)
     :admin_emails,     # e.g. ['drnic@starkandwayne.com']
     :compilation_cloud_properties, # e.g. { "instance_type" => "m1.medium", "region" => "us-east-1" }
+    :core_cloud_properties,        # e.g. { "instance_type" => "m1.large", "region" => "us-east-1" }
     :dea,              # e.g. { "count" => 2, "flavor" => "m1.large" }
     :postgresql,       # e.g. [{ "count" => 2, "flavor" => "m1.large", "plan" => "free" }]
     :redis,            # e.g. [{ "count" => 2, "flavor" => "m1.large", "plan" => "free" }]

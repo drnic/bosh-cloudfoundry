@@ -37,6 +37,7 @@ resource_pools:
     version: 0.7.0
   cloud_properties: 
     instance_type: m1.small
+    region: us-west-2
   persistent_disk: 16192
 - name: redis_m1_small_free
   network: default

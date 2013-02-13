@@ -42,12 +42,6 @@ describe Bosh::CloudFoundry::ConfigOptions do
       system_config.root_dns.should == "CHANGED"
     end
 
-    it "core_server_flavor can be overridden but is stored in system_config" do
-      options[:core_server_flavor] = "CHANGED"
-      core_server_flavor.should == "CHANGED"
-      system_config.core_server_flavor.should == "CHANGED"
-    end
-
     it "common_password is 16 characters long" do
       generate_common_password.size.should == 16
     end

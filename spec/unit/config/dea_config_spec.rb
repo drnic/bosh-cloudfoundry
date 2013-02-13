@@ -15,7 +15,9 @@ describe Bosh::CloudFoundry::Config::DeaConfig do
     @system_config.bosh_target = "http://6.7.8.9:25555"
     @system_config.bosh_target_uuid = "DIRECTOR_UUID"
     @system_config.bosh_provider = "aws"
-    @system_config.core_server_flavor = "m1.large"
+    @system_config.core_cloud_properties = {
+      "instance_type" => "m1.large", "region" => "us-west-2"
+    }
     @manifest = YAML.load_file(spec_asset("deployments/aws-core-only.yml"))
   end
 

@@ -149,14 +149,14 @@ module Bosh::CloudFoundry::ConfigOptions
   # @return [String] public DNS all apps & api access, e.g. mycompany.com
   overriddable_config_option :root_dns, :system_config
 
-  # @return [String] flavor of server for the Core server in CloudFoundry deployment
-  overriddable_config_option :core_server_flavor, :system_config
-
   # @return [Array] list of emails for pre-created admin accounts in CloudFoundry deployment
   overriddable_config_option :admin_emails, :system_config
 
   # @return [String] cloud properties, for deployment manifest, for compilation VMs
   overriddable_config_option :compilation_cloud_properties, :system_config
+
+  # @return [String] cloud properties, for deployment manifest, for the core VM
+  overriddable_config_option :core_cloud_properties, :system_config
 
   # @return [Integer] the persistent disk size (Mb) attached to any server that wants one
   overriddable_config_option :common_persistent_disk, :system_config
@@ -352,19 +352,6 @@ module Bosh::CloudFoundry::ConfigOptions
     system_config.root_dns
   end
 
-  def choose_core_server_flavor
-    if non_interactive?
-      err "Please set core_server_flavor configuration for non-interactive mode"
-    end
-
-    server_flavor = ask("Server flavor for core of CloudFoundry? ") do |q|
-      q.default = default_core_server_flavor
-    end
-    system_config.core_server_flavor = server_flavor.to_s
-    system_config.save
-    system_config.core_server_flavor
-  end
-
   def choose_admin_emails
     if non_interactive?
       err "Please set admin_emails configuration for non-interactive mode"
@@ -400,6 +387,25 @@ module Bosh::CloudFoundry::ConfigOptions
     end
     puts "generated compilation properties: #{base}"
     base
+  end
+
+  def choose_core_cloud_properties
+    if non_interactive?
+      err "Please set core_cloud_properties configuration for non-interactive mode"
+    end
+
+    server_flavor = ask("Server flavor for #{role} of Cloud Foundry? ") do |q|
+      q.default = default_core_server_flavor
+    end
+
+    properties = { "instance_type" => server_flavor }
+
+    if system_config.microbosh && fog_properties = system_config.microbosh.fog_connection_properties
+      properties["region"] = fog_properties[:region] if fog_properties[:region] # AWS
+    end
+    system_config.core_cloud_properties = properties
+    system_config.save
+    properties
   end
 
   # List of versions of stemcell called "bosh-stemcell" that are available
