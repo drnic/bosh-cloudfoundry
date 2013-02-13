@@ -10,6 +10,7 @@ compilation:
   reuse_compilation_vms: true
   cloud_properties: 
     instance_type: m1.medium
+    region: us-west-2
 update: 
   canaries: 1
   canary_watch_time: 30000-150000

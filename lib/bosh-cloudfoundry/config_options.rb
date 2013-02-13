@@ -155,6 +155,9 @@ module Bosh::CloudFoundry::ConfigOptions
   # @return [Array] list of emails for pre-created admin accounts in CloudFoundry deployment
   overriddable_config_option :admin_emails, :system_config
 
+  # @return [String] cloud properties, for deployment manifest, for compilation VMs
+  overriddable_config_option :compilation_cloud_properties, :system_config
+
   # @return [Integer] the persistent disk size (Mb) attached to any server that wants one
   overriddable_config_option :common_persistent_disk, :system_config
 
@@ -384,6 +387,22 @@ module Bosh::CloudFoundry::ConfigOptions
 
   def generate_security_group
     "cloudfoundry-#{system_name}"
+  end
+
+  def generate_compilation_cloud_properties
+    fog_properties = system_config.microbosh.fog_connection_properties
+    if aws?
+      {
+        "instance_type" => "m1.medium",
+        "region" => fog_properties[:region]
+      }
+    elsif openstack?
+      {
+        "instance_type" => "m1.medium"
+      }
+    else
+      raise "please implement #generate_compilation_server_flavor for #{system.bosh_provider}"
+    end
   end
 
   # List of versions of stemcell called "bosh-stemcell" that are available

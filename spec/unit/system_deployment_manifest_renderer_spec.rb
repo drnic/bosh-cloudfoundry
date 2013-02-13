@@ -30,6 +30,9 @@ describe Bosh::CloudFoundry::SystemDeploymentManifestRenderer do
     @system_config.core_ip = '1.2.3.4'
     @system_config.root_dns = 'mycompany.com'
     @system_config.admin_emails = ['drnic@starkandwayne.com']
+    @system_config.compilation_cloud_properties = {
+      "instance_type" => "m1.medium", "region" => "us-west-2"
+    }
     @system_config.common_password = 'c1oudc0wc1oudc0w'
     @system_config.common_persistent_disk = 16192
     @system_config.security_group = 'cloudfoundry-production'
