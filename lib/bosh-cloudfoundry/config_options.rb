@@ -398,7 +398,7 @@ module Bosh::CloudFoundry::ConfigOptions
       q.default = default_core_server_flavor
     end
 
-    properties = { "instance_type" => server_flavor }
+    properties = { "instance_type" => server_flavor.to_s }
 
     if system_config.microbosh && fog_properties = system_config.microbosh.fog_connection_properties
       properties["region"] = fog_properties[:region] if fog_properties[:region] # AWS
