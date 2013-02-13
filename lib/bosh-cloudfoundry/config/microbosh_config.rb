@@ -8,10 +8,17 @@ module Bosh; module CloudFoundry; module Config; end; end; end
 # If ~/.bosh_deployer_config exists, it contains the location of
 # the `micro_bosh.yml` for each microbosh.
 class Bosh::CloudFoundry::Config::MicroboshConfig
-  attr_reader :deployed_microboshes, :target_bosh_host
+  attr_reader :system_config
 
-  def initialize(target_bosh_host)
-    @target_bosh_host = target_bosh_host
+  def initialize(system_config)
+    unless system_config.bosh_target
+      raise "please set #bosh_target before requesting microbosh configuration"
+    end
+    @system_config = system_config
+  end
+
+  def target_bosh_host
+    system_config.bosh_target
   end
 
   def valid?
@@ -95,6 +102,17 @@ class Bosh::CloudFoundry::Config::MicroboshConfig
     true
   rescue
     false
+  end
+
+  def deployed_microboshes
+    @deployed_microboshes ||= begin
+      unless File.exist?(bosh_deployer_config)
+        puts "WARNING: no microbosh ~/.bosh_deployer_config found"
+        { "deployment" => {} }
+      else
+        YAML.load_file(bosh_deployer_config)
+      end
+    end
   end
 
   # ensure there is a ~/.bosh_deployer_config

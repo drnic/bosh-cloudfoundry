@@ -59,9 +59,6 @@ class Bosh::CloudFoundry::Config::SystemConfig < Bosh::Cli::Config
   end
 
   def microbosh
-    unless bosh_target
-      raise "please set #bosh_target before requesting microbosh configuration"
-    end
-    @microbosh ||= Bosh::CloudFoundry::Config::MicroboshConfig.new(bosh_target)
+    @microbosh ||= Bosh::CloudFoundry::Config::MicroboshConfig.new(self)
   end
 end

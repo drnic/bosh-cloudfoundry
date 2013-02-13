@@ -141,6 +141,9 @@ describe Bosh::Cli::Command::Base do
       cmd.stub!(:bosh_target).and_return("http://9.8.7.6:25555")
       cmd.stub!(:bosh_target_uuid).and_return("DIRECTOR_UUID")
       cmd.stub!(:bosh_cpi).and_return("aws")
+      cmd.stub!(:compilation_cloud_properties).and_return({
+        "instance_type" => "m1.medium", "region" => "us-west-2"
+      })
       cmd.should_receive(:generate_common_password).and_return('c1oudc0wc1oudc0w')
       cmd.should_receive(:validate_dns_a_record).with("api.mycompany.com", '1.2.3.4').and_return(true)
       cmd.should_receive(:validate_dns_a_record).with("demoapp.mycompany.com", '1.2.3.4').and_return(true)
