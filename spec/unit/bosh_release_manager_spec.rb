@@ -26,11 +26,11 @@ describe Bosh::CloudFoundry::BoshReleaseManager do
     clone_or_update_cf_release
   end
 
-  it "clone_or_update_cf_release - updates staging branch" do
-    self.cf_release_branch     = "staging"
-    self.cf_release_branch_dir = File.join(cf_release_dir, "staging")
+  it "clone_or_update_cf_release - updates v1 branch" do
+    self.cf_release_branch     = "v1"
+    self.cf_release_branch_dir = File.join(cf_release_dir, "v1")
     mkdir_p(cf_release_branch_dir)
-    should_receive(:sh).with("git pull origin staging")
+    should_receive(:sh).with("git pull origin v1")
     clone_or_update_cf_release
   end
 
@@ -46,12 +46,12 @@ describe Bosh::CloudFoundry::BoshReleaseManager do
 
   describe "switch release types" do
     it "from final to dev" do
-      self.cf_release_branch     = "master"
+      self.cf_release_branch     = "v1"
       @system_config.release_name = "appcloud"
       @system_config.release_version = "latest"
       @system_config.save
       switch_to_development_release
-      @system_config.release_name.should == "appcloud-master"
+      @system_config.release_name.should == "appcloud-v1"
       @system_config.release_version.should == "latest"
     end
 

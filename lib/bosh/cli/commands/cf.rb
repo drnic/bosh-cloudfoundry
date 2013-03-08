@@ -136,7 +136,7 @@ module Bosh::Cli::Command
       switch_to_development_release unless system_config.release_type
         
       if dev_release_type?
-        new_branch ||= "master"
+        new_branch ||= "v1"
         set_cf_release_branch(new_branch)
         clone_or_update_cf_release
         prepare_cf_release_for_dev_release
@@ -419,11 +419,11 @@ module Bosh::Cli::Command
       File.join(stemcells_dir, File.basename(generated_stemcell))
     end
 
-    def clone_or_update_repository(name, repo_uri)
+    def clone_or_update_repository(name, repo_uri, branch="master")
       if File.directory?(name)
         chdir(name) do
           say "Updating #{name} repositry..."
-          sh "git pull origin master"
+          sh "git pull origin #{branch}"
         end
       else
         say "Cloning #{repo_uri} repositry..."
@@ -550,7 +550,7 @@ module Bosh::Cli::Command
       common_password
       security_group
 
-      set_cf_release_branch("master")
+      set_cf_release_branch("v1")
     end
 
     # Renders the +SystemConfig+ model (+system_config+) into the system's
